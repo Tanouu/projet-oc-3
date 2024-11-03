@@ -2,6 +2,7 @@ package com.tanou.projet.oc.backend.projet2.controller;
 
 
 import com.tanou.projet.oc.backend.projet2.dto.LoginDto;
+import com.tanou.projet.oc.backend.projet2.dto.RegisterDto;
 import com.tanou.projet.oc.backend.projet2.dto.UserDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.security.JwtGenerator;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,14 +37,23 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<?> registerNewUser(@RequestBody UserDto userDto) {
-    System.out.println("Register a new user"); // Ajoute cette ligne pour vérifier
-    userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-    userService.registerNewUser(userDto);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody RegisterDto registerDto) {
+    System.out.println("Registering a new user");
+
+    registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+
+    User newUser = userService.registerNewUser(registerDto);
+
+    UsernamePasswordAuthenticationToken authentication =
+      new UsernamePasswordAuthenticationToken(newUser.getEmail(), null, new ArrayList<>());
+
+    final String jwt = jwtGenerator.generateToken(authentication);
+
+    return ResponseEntity.ok(Map.of("token", jwt));
   }
 
-  @PostMapping("/email")
+
+  @PostMapping("/login")
   public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginDto loginData) {
     User user = userService.findUserByEmail(loginData.getLogin());
     if (user == null) {
@@ -57,6 +67,18 @@ public class UserController {
     final String jwt = jwtGenerator.generateToken(authentication);
 
     return ResponseEntity.ok(Map.of("token", jwt));
+
+  }
+
+  @GetMapping("/me")
+  public ResponseEntity<UserDto> getUserProfile(Authentication authentication) {
+    if (authentication == null) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    String email = authentication.getName();
+
+    UserDto userDto = userService.getUserDto(userService.findUserByEmail(email));
+    return ResponseEntity.ok(userDto);
   }
 }
 

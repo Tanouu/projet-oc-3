@@ -36,7 +36,8 @@ public class WebSecurityConfig {
       .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests((authorize) -> {
         authorize.requestMatchers("/api/auth/register").permitAll();
-        authorize.requestMatchers("/api/auth/email").permitAll();
+        authorize.requestMatchers("/api/auth/login").permitAll();
+        authorize.requestMatchers("/api/auth/me").authenticated();
         authorize.anyRequest().authenticated();
       })
       .httpBasic(Customizer.withDefaults());
@@ -58,4 +59,6 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

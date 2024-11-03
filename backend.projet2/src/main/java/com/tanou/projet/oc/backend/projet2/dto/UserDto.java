@@ -1,16 +1,44 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
+
 public class UserDto {
-  private String email;
+  private Integer id;
   private String name;
-  private String password;
+  private String email;
 
-  // Constructeurs, Getters et Setters
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+  private LocalDateTime createdAt;
 
-  public UserDto(String email, String name, String password) {
-    this.email = email;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+  private LocalDateTime updatedAt;
+
+  // Constructeurs, getters et setters
+
+  public UserDto(Integer id, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    this.id = id;
     this.name = name;
-    this.password = password;
+    this.email = email;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getEmail() {
@@ -21,19 +49,19 @@ public class UserDto {
     this.email = email;
   }
 
-  public String getName() {
-    return name;
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 
-  public String getPassword() {
-    return password;
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }

@@ -33,4 +33,6 @@ export class SessionService {
   private next(): void {
     this.isLoggedSubject.next(this.isLogged);
   }
+
+
 }
