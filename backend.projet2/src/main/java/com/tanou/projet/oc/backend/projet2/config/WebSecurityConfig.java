@@ -37,7 +37,6 @@ public class WebSecurityConfig {
       .authorizeHttpRequests((authorize) -> {
         authorize.requestMatchers("/api/auth/register").permitAll();
         authorize.requestMatchers("/api/auth/login").permitAll();
-        authorize.requestMatchers("/api/auth/me").authenticated();
         authorize.anyRequest().authenticated();
       })
       .httpBasic(Customizer.withDefaults());

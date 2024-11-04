@@ -55,7 +55,7 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginDto loginData) {
-    User user = userService.findUserByEmail(loginData.getLogin());
+    User user = userService.findUserByEmail(loginData.getEmail());
     if (user == null) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
     } else if (!passwordEncoder.matches(loginData.getPassword(), user.getPassword())) {

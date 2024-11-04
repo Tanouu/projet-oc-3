@@ -1,44 +1,33 @@
-package com.tanou.projet.oc.backend.projet2.entity;
-
-import jakarta.persistence.*;
+package com.tanou.projet.oc.backend.projet2.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "RENTALS")
-public class Rental {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RentalDto {
   private Integer id;
-
   private String name;
-
   private BigDecimal surface;
-
   private BigDecimal price;
-
   private String picture;
-
-  @Column(length = 2000)
   private String description;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "owner_id", nullable = false)
-  private User owner;
-
+  private Integer ownerId;
   private LocalDateTime createdAt;
-
   private LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Message> messages;
+  public RentalDto() {}
 
-  // Getters et setters
-
+  public RentalDto(Integer id, String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer ownerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    this.id = id;
+    this.name = name;
+    this.surface = surface;
+    this.price = price;
+    this.picture = picture;
+    this.description = description;
+    this.ownerId = ownerId;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
   public Integer getId() {
     return id;
@@ -88,12 +77,12 @@ public class Rental {
     this.description = description;
   }
 
-  public User getOwner() {
-    return owner;
+  public Integer getOwnerId() {
+    return ownerId;
   }
 
-  public void setOwner(User owner) {
-    this.owner = owner;
+  public void setOwnerId(Integer ownerId) {
+    this.ownerId = ownerId;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -111,12 +100,5 @@ public class Rental {
   public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
-
-  public List<Message> getMessages() {
-    return messages;
-  }
-
-  public void setMessages(List<Message> messages) {
-    this.messages = messages;
-  }
 }
+
