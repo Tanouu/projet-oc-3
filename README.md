@@ -57,3 +57,7 @@ Then, run the back-end:
 ```ini
 run backend.projet2/src/main/java/com/tanou/projet/oc/backend/projet2/Application.java
 ```
+
+### Swagger
+
+http://localhost:3001/swagger-ui/index.html
