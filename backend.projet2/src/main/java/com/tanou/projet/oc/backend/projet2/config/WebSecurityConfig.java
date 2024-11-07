@@ -2,7 +2,6 @@ package com.tanou.projet.oc.backend.projet2.config;
 
 import com.tanou.projet.oc.backend.projet2.security.AuthEntryPointJwt;
 import com.tanou.projet.oc.backend.projet2.security.JwtAuthFilter;
-import com.tanou.projet.oc.backend.projet2.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +20,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private UserDetailsServiceImpl userDetailsService;
+  private AuthEntryPointJwt authEntryPoint;
 
-    private AuthEntryPointJwt authEntryPoint;
-    @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt authEntryPoint) {
-        this.userDetailsService = userDetailsService;
-        this.authEntryPoint = authEntryPoint;
-    }
+  @Autowired
+  public WebSecurityConfig(AuthEntryPointJwt authEntryPoint) {
+    this.authEntryPoint = authEntryPoint;
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,27 +33,36 @@ public class WebSecurityConfig {
       .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(authEntryPoint))
       .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests((authorize) -> {
-        authorize.requestMatchers("/api/auth/register").permitAll();
-        authorize.requestMatchers("/api/auth/login").permitAll();
+        authorize.requestMatchers(
+          "/v3/api-docs/**",
+          "/swagger-ui/**",
+          "/swagger-ui.html",
+          "/swagger-resources/**",
+          "/webjars/**",
+          "/error"
+        ).permitAll();
+        authorize.requestMatchers("/api/auth/register", "/api/auth/login").permitAll();
         authorize.anyRequest().authenticated();
       })
       .httpBasic(Customizer.withDefaults());
+
     http.addFilterBefore(JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
   @Bean
-    public JwtAuthFilter JWTAuthenticationFilter() throws Exception {
-        return new JwtAuthFilter();
-    }
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+  public JwtAuthFilter JWTAuthenticationFilter() {
+    return new JwtAuthFilter();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(
+    AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }
