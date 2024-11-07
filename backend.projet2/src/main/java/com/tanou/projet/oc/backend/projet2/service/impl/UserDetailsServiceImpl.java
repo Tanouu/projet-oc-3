@@ -1,5 +1,6 @@
 package com.tanou.projet.oc.backend.projet2.service.impl;
 
+import com.tanou.projet.oc.backend.projet2.dto.UserDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.repository.UserRepository;
 import com.tanou.projet.oc.backend.projet2.service.UserDetailsService;
@@ -28,6 +29,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
     return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+  }
+
+  @Override
+  public UserDto getUserById(Integer id) {
+    User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+    return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
   }
 
 }

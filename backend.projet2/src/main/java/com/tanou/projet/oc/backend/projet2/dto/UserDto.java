@@ -1,6 +1,5 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class UserDto {
@@ -8,18 +7,18 @@ public class UserDto {
   private String name;
   private String email;
 
-  private LocalDateTime createdAt;
+  private LocalDateTime created_at;
 
-  private LocalDateTime updatedAt;
+  private LocalDateTime updated_at;
 
   // Constructeurs, getters et setters
 
-  public UserDto(Integer id, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public UserDto(Integer id, String name, String email, LocalDateTime created_at, LocalDateTime updated_at) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
   }
 
   public Integer getId() {
@@ -47,19 +46,19 @@ public class UserDto {
     this.email = email;
   }
 
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
+  public LocalDateTime getCreated_at() {
+    return created_at;
   }
 
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
+  public void setCreated_at(LocalDateTime created_at) {
+    this.created_at = created_at;
   }
 
-  public LocalDateTime getUpdatedAt() {
-    return updatedAt;
+  public LocalDateTime getUpdated_at() {
+    return updated_at;
   }
 
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
+  public void setUpdated_at(LocalDateTime updated_at) {
+    this.updated_at = updated_at;
   }
 }

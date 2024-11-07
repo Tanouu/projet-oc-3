@@ -25,14 +25,12 @@ public class UserController {
 
   private final UserService userService;
   private final PasswordEncoder passwordEncoder;
-  private final UserDetailsServiceImpl userDetailsService;
   private final JwtGenerator jwtGenerator;
 
   @Autowired
   public UserController(UserService userService, PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsService, JwtGenerator jwtUtil) {
     this.userService = userService;
     this.passwordEncoder = passwordEncoder;
-    this.userDetailsService = userDetailsService;
     this.jwtGenerator = jwtUtil;
   }
 
@@ -80,5 +78,6 @@ public class UserController {
     UserDto userDto = userService.getUserDto(userService.findUserByEmail(email));
     return ResponseEntity.ok(userDto);
   }
+
 }
 

@@ -6,6 +6,7 @@ import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rentals")
@@ -31,18 +33,15 @@ public class RentalController {
   }
 
   @GetMapping
-  public ResponseEntity<List<RentalDto>> getAllRentals() {
-    return ResponseEntity.ok(rentalService.getAllRentals());
+  public ResponseEntity<Map<String, List<RentalDto>>> getAllRentals() {
+    List<RentalDto> rentals = rentalService.getAllRentals();
+    Map<String, List<RentalDto>> response = Map.of("rentals", rentals);
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<RentalDto> getRentalById(@PathVariable Integer id) {
     return ResponseEntity.ok(rentalService.getRentalById(id));
-  }
-
-  @PutMapping("/{id}")
-  public ResponseEntity<RentalDto> updateRental(@PathVariable Integer id, @RequestBody CreateRentalDto createRentalDto) {
-    return ResponseEntity.ok(rentalService.updateRental(id, createRentalDto));
   }
 
   @PostMapping
@@ -67,5 +66,27 @@ public class RentalController {
     createRentalDto.setOwner_id(currentUser.getId()); // Utilisez l'ID de l'utilisateur authentifié
 
     return ResponseEntity.ok(rentalService.createRental(createRentalDto, picture));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<RentalDto> updateRental(
+    @PathVariable Integer id,
+    @RequestParam("name") String name,
+    @RequestParam("description") String description,
+    @RequestParam("price") BigDecimal price,
+    @RequestParam("surface") BigDecimal surface,
+    Principal principal) throws IOException {
+
+    String email = principal.getName();
+    User currentUser = userService.findUserByEmail(email);
+
+    CreateRentalDto createRentalDto = new CreateRentalDto();
+    createRentalDto.setName(name);
+    createRentalDto.setDescription(description);
+    createRentalDto.setPrice(price);
+    createRentalDto.setSurface(surface);
+    createRentalDto.setOwner_id(currentUser.getId());
+
+    return ResponseEntity.ok(rentalService.updateRental(id, createRentalDto));
   }
 }

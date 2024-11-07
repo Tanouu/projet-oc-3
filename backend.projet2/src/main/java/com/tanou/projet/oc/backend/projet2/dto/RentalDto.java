@@ -2,7 +2,6 @@ package com.tanou.projet.oc.backend.projet2.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class RentalDto {
   private Integer id;
@@ -11,22 +10,22 @@ public class RentalDto {
   private BigDecimal price;
   private String picture;
   private String description;
-  private Integer ownerId;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private Integer owner_id;
+  private LocalDateTime created_at;
+  private LocalDateTime updated_at;
 
   public RentalDto() {}
 
-  public RentalDto(Integer id, String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer ownerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public RentalDto(Integer id, String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer owner_id, LocalDateTime created_at, LocalDateTime updated_at) {
     this.id = id;
     this.name = name;
     this.surface = surface;
     this.price = price;
     this.picture = picture;
     this.description = description;
-    this.ownerId = ownerId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.owner_id = owner_id;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
   }
 
   public Integer getId() {
@@ -77,28 +76,28 @@ public class RentalDto {
     this.description = description;
   }
 
-  public Integer getOwnerId() {
-    return ownerId;
+  public Integer getOwner_id() {
+    return owner_id;
   }
 
-  public void setOwnerId(Integer ownerId) {
-    this.ownerId = ownerId;
+  public void setOwner_id(Integer owner_id) {
+    this.owner_id = owner_id;
   }
 
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
+  public LocalDateTime getCreated_at() {
+    return created_at;
   }
 
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
+  public void setCreated_at(LocalDateTime created_at) {
+    this.created_at = created_at;
   }
 
-  public LocalDateTime getUpdatedAt() {
-    return updatedAt;
+  public LocalDateTime getUpdated_at() {
+    return updated_at;
   }
 
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
+  public void setUpdated_at(LocalDateTime updated_at) {
+    this.updated_at = updated_at;
   }
 }
 

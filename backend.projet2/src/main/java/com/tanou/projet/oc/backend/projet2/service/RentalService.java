@@ -10,7 +10,7 @@ import java.util.List;
 public interface RentalService {
   List<RentalDto> getAllRentals();
   RentalDto getRentalById(Integer id);
-  RentalDto updateRental(Integer id, CreateRentalDto createRentalDto);
   RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture);
+  RentalDto updateRental(Integer id, CreateRentalDto createRentalDto);
 
 }

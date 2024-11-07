@@ -42,19 +42,6 @@ public class RentalServiceImpl implements RentalService {
   }
 
   @Override
-  public RentalDto updateRental(Integer id, CreateRentalDto createRentalDto) {
-    Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found"));
-    rental.setName(createRentalDto.getName());
-    rental.setSurface(createRentalDto.getSurface());
-    rental.setPrice(createRentalDto.getPrice());
-    rental.setPicture(createRentalDto.getPicture());
-    rental.setDescription(createRentalDto.getDescription());
-    rental.setUpdatedAt(LocalDateTime.now());
-    rental = rentalRepository.save(rental);
-    return convertToDto(rental);
-  }
-
-  @Override
   public RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture) {
     Rental rental = new Rental();
     rental.setName(createRentalDto.getName());
@@ -68,6 +55,20 @@ public class RentalServiceImpl implements RentalService {
     // Save the picture to the server
     String picturePath = savePicture(picture);
     rental.setPicture(picturePath);
+
+    rental = rentalRepository.save(rental);
+    return convertToDto(rental);
+  }
+
+  @Override
+  public RentalDto updateRental(Integer id, CreateRentalDto createRentalDto) {
+    Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found"));
+    rental.setName(createRentalDto.getName());
+    rental.setSurface(createRentalDto.getSurface());
+    rental.setPrice(createRentalDto.getPrice());
+    rental.setDescription(createRentalDto.getDescription());
+    rental.setOwner(userRepository.findById(createRentalDto.getOwner_id()).orElseThrow(() -> new RuntimeException("Owner not found")));
+    rental.setUpdatedAt(LocalDateTime.now());
 
     rental = rentalRepository.save(rental);
     return convertToDto(rental);
@@ -93,9 +94,9 @@ public class RentalServiceImpl implements RentalService {
     rentalDto.setPrice(rental.getPrice());
     rentalDto.setPicture(rental.getPicture());
     rentalDto.setDescription(rental.getDescription());
-    rentalDto.setOwnerId(rental.getOwner().getId());
-    rentalDto.setCreatedAt(rental.getCreatedAt());
-    rentalDto.setUpdatedAt(rental.getUpdatedAt());
+    rentalDto.setOwner_id(rental.getOwner().getId());
+    rentalDto.setCreated_at(rental.getCreatedAt());
+    rentalDto.setUpdated_at(rental.getUpdatedAt());
     return rentalDto;
   }
 }
