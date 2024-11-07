@@ -10,9 +10,6 @@ public class CreateRentalDto {
   private String description;
   private Integer owner_id;
 
-  // Constructeurs, Getters et Setters
-
-
   public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer owner_id) {
     this.name = name;
     this.surface = surface;

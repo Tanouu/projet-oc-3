@@ -53,17 +53,16 @@ public class RentalController {
     @RequestParam("picture") MultipartFile picture,
     Principal principal) throws IOException {
 
-    // Récupérer l'utilisateur connecté par email (username)
-    String email = principal.getName();
-    User currentUser = userService.findUserByEmail(email); // Assurez-vous d'avoir une méthode qui trouve l'utilisateur par email
 
-    // Créer un nouvel objet CreateRentalDto
+    String email = principal.getName();
+    User currentUser = userService.findUserByEmail(email);
+
     CreateRentalDto createRentalDto = new CreateRentalDto();
     createRentalDto.setName(name);
     createRentalDto.setDescription(description);
     createRentalDto.setPrice(price);
     createRentalDto.setSurface(surface);
-    createRentalDto.setOwner_id(currentUser.getId()); // Utilisez l'ID de l'utilisateur authentifié
+    createRentalDto.setOwner_id(currentUser.getId());
 
     return ResponseEntity.ok(rentalService.createRental(createRentalDto, picture));
   }

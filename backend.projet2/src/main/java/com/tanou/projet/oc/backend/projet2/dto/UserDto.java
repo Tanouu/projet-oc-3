@@ -11,8 +11,6 @@ public class UserDto {
 
   private LocalDateTime updated_at;
 
-  // Constructeurs, getters et setters
-
   public UserDto(Integer id, String name, String email, LocalDateTime created_at, LocalDateTime updated_at) {
     this.id = id;
     this.name = name;

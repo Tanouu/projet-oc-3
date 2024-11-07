@@ -28,8 +28,6 @@ public class Message {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
-  // Getters et setters
-
   public Integer getId() {
     return id;
   }

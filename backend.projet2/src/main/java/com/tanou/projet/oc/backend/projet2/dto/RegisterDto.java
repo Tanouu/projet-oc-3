@@ -5,8 +5,6 @@ public class RegisterDto {
   private String name;
   private String password;
 
-  // Constructeurs, Getters et Setters
-
   public RegisterDto(String email, String name, String password) {
     this.email = email;
     this.name = name;

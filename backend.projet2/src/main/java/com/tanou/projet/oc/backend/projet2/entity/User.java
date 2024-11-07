@@ -36,9 +36,6 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Message> messages;
 
-  // Getters et setters
-
-
   public Integer getId() {
     return id;
   }

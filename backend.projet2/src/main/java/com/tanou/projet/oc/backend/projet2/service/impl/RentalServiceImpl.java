@@ -52,7 +52,6 @@ public class RentalServiceImpl implements RentalService {
     rental.setCreatedAt(LocalDateTime.now());
     rental.setUpdatedAt(LocalDateTime.now());
 
-    // Save the picture to the server
     String picturePath = savePicture(picture);
     rental.setPicture(picturePath);
 

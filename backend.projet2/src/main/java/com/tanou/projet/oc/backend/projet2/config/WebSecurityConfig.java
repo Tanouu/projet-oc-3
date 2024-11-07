@@ -33,6 +33,7 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf((csrf) -> csrf.disable())
+      .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(authEntryPoint))
       .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests((authorize) -> {
         authorize.requestMatchers("/api/auth/register").permitAll();
@@ -48,7 +49,7 @@ public class WebSecurityConfig {
     public JwtAuthFilter JWTAuthenticationFilter() throws Exception {
         return new JwtAuthFilter();
     }
-    @Bean // configuration de l' AuthenticationManager
+    @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -58,6 +59,4 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 }

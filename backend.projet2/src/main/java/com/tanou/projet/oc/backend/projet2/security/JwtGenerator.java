@@ -1,6 +1,5 @@
 package com.tanou.projet.oc.backend.projet2.security;
 
-import com.tanou.projet.oc.backend.projet2.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.Keys;
@@ -19,7 +18,6 @@ public class JwtGenerator {
 
   private final Key key;
 
-  // Injecte la clé secrète
   public JwtGenerator(@Value("${jwt.secret-key}") String secretKey) {
     this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secretKey));
   }

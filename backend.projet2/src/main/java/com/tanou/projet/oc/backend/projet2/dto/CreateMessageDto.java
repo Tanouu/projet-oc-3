@@ -5,9 +5,6 @@ public class CreateMessageDto {
   private Integer user_id;
   private Integer rental_id;
 
-  // Constructeurs, getters et setters
-
-
   public CreateMessageDto() {
   }
 
