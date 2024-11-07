@@ -8,7 +8,13 @@ import com.tanou.projet.oc.backend.projet2.repository.UserRepository;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +22,12 @@ import java.util.stream.Collectors;
 public class RentalServiceImpl implements RentalService {
 
   private final RentalRepository rentalRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  public RentalServiceImpl(RentalRepository rentalRepository) {
+  public RentalServiceImpl(RentalRepository rentalRepository, UserRepository userRepository) {
     this.rentalRepository = rentalRepository;
+    this.userRepository = userRepository;
   }
 
   @Override
@@ -41,11 +49,41 @@ public class RentalServiceImpl implements RentalService {
     rental.setPrice(createRentalDto.getPrice());
     rental.setPicture(createRentalDto.getPicture());
     rental.setDescription(createRentalDto.getDescription());
-    rental.setUpdatedAt(createRentalDto.getUpdatedAt());
+    rental.setUpdatedAt(LocalDateTime.now());
     rental = rentalRepository.save(rental);
     return convertToDto(rental);
   }
 
+  @Override
+  public RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture) {
+    Rental rental = new Rental();
+    rental.setName(createRentalDto.getName());
+    rental.setSurface(createRentalDto.getSurface());
+    rental.setPrice(createRentalDto.getPrice());
+    rental.setDescription(createRentalDto.getDescription());
+    rental.setOwner(userRepository.findById(createRentalDto.getOwner_id()).orElseThrow(() -> new RuntimeException("Owner not found")));
+    rental.setCreatedAt(LocalDateTime.now());
+    rental.setUpdatedAt(LocalDateTime.now());
+
+    // Save the picture to the server
+    String picturePath = savePicture(picture);
+    rental.setPicture(picturePath);
+
+    rental = rentalRepository.save(rental);
+    return convertToDto(rental);
+  }
+
+  private String savePicture(MultipartFile picture) {
+    String folder = "uploads/";
+    try {
+      byte[] bytes = picture.getBytes();
+      Path path = Paths.get(folder + picture.getOriginalFilename());
+      Files.write(path, bytes);
+      return path.toString();
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to store picture", e);
+    }
+  }
 
   private RentalDto convertToDto(Rental rental) {
     RentalDto rentalDto = new RentalDto();
@@ -60,5 +98,4 @@ public class RentalServiceImpl implements RentalService {
     rentalDto.setUpdatedAt(rental.getUpdatedAt());
     return rentalDto;
   }
-
 }

@@ -18,9 +18,10 @@ public class User {
   @Column(unique = true, nullable = false)
   private String email;
 
+  @Column(name = "name")
   private String name;
 
-  @Column(nullable = false)
+  @Column(name = "password")
   private String password;
 
   @Column(name = "created_at")

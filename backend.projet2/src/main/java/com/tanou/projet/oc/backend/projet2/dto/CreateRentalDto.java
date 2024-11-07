@@ -1,8 +1,6 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class CreateRentalDto {
   private String name;
@@ -10,22 +8,22 @@ public class CreateRentalDto {
   private BigDecimal price;
   private String picture;
   private String description;
-  private Integer ownerId;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private Integer owner_id;
 
   // Constructeurs, Getters et Setters
 
 
-  public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer ownerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer owner_id) {
     this.name = name;
     this.surface = surface;
     this.price = price;
     this.picture = picture;
     this.description = description;
-    this.ownerId = ownerId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.owner_id = owner_id;
+  }
+
+  public CreateRentalDto() {
+
   }
 
   public String getName() {
@@ -68,27 +66,11 @@ public class CreateRentalDto {
     this.description = description;
   }
 
-  public Integer getOwnerId() {
-    return ownerId;
+  public Integer getOwner_id() {
+    return owner_id;
   }
 
-  public void setOwnerId(Integer ownerId) {
-    this.ownerId = ownerId;
-  }
-
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public LocalDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
+  public void setOwner_id(Integer owner_id) {
+    this.owner_id = owner_id;
   }
 }

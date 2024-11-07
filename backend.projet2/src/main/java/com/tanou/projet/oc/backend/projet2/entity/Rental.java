@@ -15,12 +15,16 @@ public class Rental {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(name = "name")
   private String name;
 
+  @Column(name = "surface")
   private BigDecimal surface;
 
+  @Column(name = "price")
   private BigDecimal price;
 
+  @Column(name = "picture")
   private String picture;
 
   @Column(length = 2000)
@@ -30,8 +34,10 @@ public class Rental {
   @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
+  @Column(name = "created_at")
   private LocalDateTime createdAt;
 
+  @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
   @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

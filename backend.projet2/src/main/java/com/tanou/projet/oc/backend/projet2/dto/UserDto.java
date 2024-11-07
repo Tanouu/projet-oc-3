@@ -8,10 +8,8 @@ public class UserDto {
   private String name;
   private String email;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
   private LocalDateTime createdAt;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
   private LocalDateTime updatedAt;
 
   // Constructeurs, getters et setters

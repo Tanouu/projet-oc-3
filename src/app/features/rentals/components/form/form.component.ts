@@ -54,7 +54,8 @@ export class FormComponent implements OnInit {
 
     if (!this.onUpdate) {
       this.rentalsService
-        .create(formData)
+        .
+        create(formData)
         .subscribe((rentalResponse: RentalResponse) => this.exitPage(rentalResponse));
     } else {
       this.rentalsService

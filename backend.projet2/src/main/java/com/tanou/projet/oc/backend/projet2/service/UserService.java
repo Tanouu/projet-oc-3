@@ -10,5 +10,6 @@ public interface UserService {
     User registerNewUser(RegisterDto registerDto);
     User findUserByEmail(String email);
     UserDto getUserDto(User user);
+    User findUserById(Integer id);
 
 }

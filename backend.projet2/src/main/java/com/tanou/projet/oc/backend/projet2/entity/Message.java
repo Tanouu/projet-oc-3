@@ -22,8 +22,10 @@ public class Message {
   @Column(length = 2000)
   private String message;
 
+  @Column(name = "created_at")
   private LocalDateTime createdAt;
 
+  @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
   // Getters et setters
