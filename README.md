@@ -1,55 +1,59 @@
-# Estate
+# Procedure to install the project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+## Procedure to install the database
 
-## Start the project
+### Install MySQL
 
-Git clone:
+Download and install MySQL from [the official site](https://dev.mysql.com/downloads/).
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P3-Full-Stack-portail-locataire
+### Create the database
 
-Go inside folder:
+Connect to MySQL and execute the following command to create the database:
 
-> cd P3-Full-Stack-portail-locataire
+```sql
+CREATE DATABASE your_database_name;
+```
 
-Install dependencies:
+### Import the SQL script
 
-> npm install
+Import the SQL script to create the tables and insert initial data:
 
-Launch Front-end:
+```bash
+mysql -u your_username -p your_database_name < ressources/sql/script.sql
+```
 
-> npm run start;
+Replace `your_username` with your MySQL username.
 
-
-## Ressources
-
-### Mockoon env
-
-Download Mockoon here: https://mockoon.com/download/
-
-After installing you could load the environement
-
-> ressources/mockoon/rental-oc.json
-
-directly inside Mockoon 
-
-> File > Open environmement
-
-For launching the Mockoon server click on play bouton
-
-Mockoon documentation: https://mockoon.com/docs/latest/about/
-
-### Postman collection
-
-For Postman import the collection
-
-> ressources/postman/rental.postman_collection.json 
-
-by following the documentation: 
-
-https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman
+Replace `your_database_name` with the name of the database you created.
 
 
-### MySQL
 
-SQL script for creating the schema is available `ressources/sql/script.sql`
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Launch the front-end
+
+```bash
+ng serve
+```
+
+### Launch the back-end
+
+Ensure that the back-end is configured to serve static files and that the `upload` folder is at the root of the back-end.
+
+Create a `.env` file at the root of the `backend.projet2` folder with the following content:
+
+```ini
+DB_URL=jdbc:mysql://localhost:3306/your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+Then, run the back-end:
+
+```ini
+run backend.projet2/src/main/java/com/tanou/projet/oc/backend/projet2/Application.java
+```

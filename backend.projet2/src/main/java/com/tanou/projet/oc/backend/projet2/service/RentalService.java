@@ -2,7 +2,6 @@ package com.tanou.projet.oc.backend.projet2.service;
 
 import com.tanou.projet.oc.backend.projet2.dto.CreateRentalDto;
 import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
-import com.tanou.projet.oc.backend.projet2.entity.Rental;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

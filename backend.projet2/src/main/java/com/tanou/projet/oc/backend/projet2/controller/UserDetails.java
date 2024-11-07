@@ -2,7 +2,6 @@ package com.tanou.projet.oc.backend.projet2.controller;
 
 import com.tanou.projet.oc.backend.projet2.dto.UserDto;
 import com.tanou.projet.oc.backend.projet2.service.UserDetailsService;
-import com.tanou.projet.oc.backend.projet2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

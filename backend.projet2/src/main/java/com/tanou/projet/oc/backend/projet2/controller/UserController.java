@@ -7,7 +7,6 @@ import com.tanou.projet.oc.backend.projet2.dto.UserDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.security.JwtGenerator;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
-import com.tanou.projet.oc.backend.projet2.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class UserController {
   private final JwtGenerator jwtGenerator;
 
   @Autowired
-  public UserController(UserService userService, PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsService, JwtGenerator jwtUtil) {
+  public UserController(UserService userService, PasswordEncoder passwordEncoder, JwtGenerator jwtUtil) {
     this.userService = userService;
     this.passwordEncoder = passwordEncoder;
     this.jwtGenerator = jwtUtil;
