@@ -7,6 +7,7 @@ import com.tanou.projet.oc.backend.projet2.repository.RentalRepository;
 import com.tanou.projet.oc.backend.projet2.repository.UserRepository;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,17 +74,23 @@ public class RentalServiceImpl implements RentalService {
     return convertToDto(rental);
   }
 
+  @Value("${server.base-url}")
+  private String serverUrl;
+
   private String savePicture(MultipartFile picture) {
     String folder = "uploads/";
     try {
       byte[] bytes = picture.getBytes();
       Path path = Paths.get(folder + picture.getOriginalFilename());
       Files.write(path, bytes);
-      return path.toString();
+
+      return serverUrl + "/uploads/" + picture.getOriginalFilename();
+
     } catch (IOException e) {
       throw new RuntimeException("Failed to store picture", e);
     }
   }
+
 
   private RentalDto convertToDto(Rental rental) {
     RentalDto rentalDto = new RentalDto();

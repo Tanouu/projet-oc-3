@@ -18,15 +18,9 @@ CREATE DATABASE your_database_name;
 
 Import the SQL script to create the tables and insert initial data:
 
-```bash
-mysql -u your_username -p your_database_name < ressources/sql/script.sql
+```ini
+ressources/sql/script.sql
 ```
-
-Replace `your_username` with your MySQL username.
-
-Replace `your_database_name` with the name of the database you created.
-
-
 
 ### Install dependencies
 
@@ -49,7 +43,9 @@ Create a `.env` file at the root of the `backend.projet2` folder with the follow
 ```ini
 DB_URL=jdbc:mysql://localhost:3306/your_database_name
 DB_USERNAME=your_username
+
 DB_PASSWORD=your_password
+SERVER_BASE_URL=your_server_base_url (ex: http://localhost:3001)
 ```
 
 Then, run the back-end:
