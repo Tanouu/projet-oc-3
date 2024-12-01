@@ -55,5 +55,6 @@ run backend.projet2/src/main/java/com/tanou/projet/oc/backend/projet2/Applicatio
 ```
 
 ### Swagger
+Once the backend is running, you can access the Swagger UI to view the API documentation and test endpoints: 
 
 http://your_server_base_url/swagger-ui/index.html
