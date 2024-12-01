@@ -39,7 +39,8 @@ public class WebSecurityConfig {
           "/swagger-ui.html",
           "/swagger-resources/**",
           "/webjars/**",
-          "/error"
+          "/error",
+          "/uploads/**"
         ).permitAll();
         authorize.requestMatchers("/api/auth/register", "/api/auth/login").permitAll();
         authorize.anyRequest().authenticated();
