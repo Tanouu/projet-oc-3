@@ -56,4 +56,4 @@ run backend.projet2/src/main/java/com/tanou/projet/oc/backend/projet2/Applicatio
 
 ### Swagger
 
-http://localhost:3001/swagger-ui/index.html
+http://your_server_base_url/swagger-ui/index.html
