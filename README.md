@@ -47,7 +47,7 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 SERVER_BASE_URL=your_server_base_url (ex: http://localhost:3001)
 ```
-
+If you don't change the server port in the application.properties file, use the default server base URL provided in the example.
 Then, run the back-end:
 
 ```ini
