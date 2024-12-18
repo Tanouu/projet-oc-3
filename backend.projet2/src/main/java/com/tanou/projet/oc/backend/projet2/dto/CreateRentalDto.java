@@ -16,18 +16,15 @@ public class CreateRentalDto {
   @NotNull(message = "Le prix est obligatoire")
   private BigDecimal price;
 
-  private String picture;
-
   @NotBlank(message = "La description ne peut pas être vide")
   private String description;
 
   private Integer owner_id;
 
-  public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer owner_id) {
+  public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String description, Integer owner_id) {
     this.name = name;
     this.surface = surface;
     this.price = price;
-    this.picture = picture;
     this.description = description;
     this.owner_id = owner_id;
   }
@@ -58,14 +55,6 @@ public class CreateRentalDto {
 
   public void setPrice(BigDecimal price) {
     this.price = price;
-  }
-
-  public String getPicture() {
-    return picture;
-  }
-
-  public void setPicture(String picture) {
-    this.picture = picture;
   }
 
   public String getDescription() {

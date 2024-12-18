@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -45,36 +44,26 @@ public class RentalController {
 
   @PostMapping
   public ResponseEntity<RentalDto> createRental(
-    @ModelAttribute @Valid CreateRentalDto createRentalDto,
+    @Valid @ModelAttribute CreateRentalDto createRentalDto,
     @RequestParam("picture") MultipartFile picture,
     Principal principal) throws IOException {
 
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
-
     createRentalDto.setOwner_id(currentUser.getId());
 
     return ResponseEntity.ok(rentalService.createRental(createRentalDto, picture));
   }
 
-
   @PutMapping("/{id}")
   public ResponseEntity<RentalDto> updateRental(
     @PathVariable Integer id,
-    @RequestParam("name") String name,
-    @RequestParam("description") String description,
-    @RequestParam("price") BigDecimal price,
-    @RequestParam("surface") BigDecimal surface,
+    @Valid @ModelAttribute CreateRentalDto createRentalDto,
+    @RequestParam("picture") MultipartFile picture,
     Principal principal) throws IOException {
 
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
-
-    CreateRentalDto createRentalDto = new CreateRentalDto();
-    createRentalDto.setName(name);
-    createRentalDto.setDescription(description);
-    createRentalDto.setPrice(price);
-    createRentalDto.setSurface(surface);
     createRentalDto.setOwner_id(currentUser.getId());
 
     return ResponseEntity.ok(rentalService.updateRental(id, createRentalDto));

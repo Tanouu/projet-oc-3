@@ -3,6 +3,7 @@ package com.tanou.projet.oc.backend.projet2.service.impl;
 import com.tanou.projet.oc.backend.projet2.dto.CreateRentalDto;
 import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
 import com.tanou.projet.oc.backend.projet2.entity.Rental;
+import com.tanou.projet.oc.backend.projet2.exception.PictureStorageException;
 import com.tanou.projet.oc.backend.projet2.repository.RentalRepository;
 import com.tanou.projet.oc.backend.projet2.repository.UserRepository;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
@@ -43,7 +44,15 @@ public class RentalServiceImpl implements RentalService {
   }
 
   @Override
-  public RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture) {
+  public RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture) throws IOException {
+    if (picture == null || picture.isEmpty() ||
+      createRentalDto.getName() == null || createRentalDto.getName().isEmpty() ||
+      createRentalDto.getSurface() == null ||
+      createRentalDto.getPrice() == null ||
+      createRentalDto.getDescription() == null || createRentalDto.getDescription().isEmpty()) {
+      throw new IllegalArgumentException("Tous les champs sont obligatoires");
+    }
+
     Rental rental = new Rental();
     rental.setName(createRentalDto.getName());
     rental.setSurface(createRentalDto.getSurface());
@@ -85,12 +94,10 @@ public class RentalServiceImpl implements RentalService {
       Files.write(path, bytes);
 
       return serverUrl + "/uploads/" + picture.getOriginalFilename();
-
     } catch (IOException e) {
-      throw new RuntimeException("Failed to store picture", e);
+      throw new PictureStorageException("Failed to store picture", e);
     }
   }
-
 
   private RentalDto convertToDto(Rental rental) {
     RentalDto rentalDto = new RentalDto();
