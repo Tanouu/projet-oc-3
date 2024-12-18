@@ -2,6 +2,7 @@ package com.tanou.projet.oc.backend.projet2.service.impl;
 
 import com.tanou.projet.oc.backend.projet2.dto.CreateRentalDto;
 import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
+import com.tanou.projet.oc.backend.projet2.dto.UpdateRentalDto;
 import com.tanou.projet.oc.backend.projet2.entity.Rental;
 import com.tanou.projet.oc.backend.projet2.exception.PictureStorageException;
 import com.tanou.projet.oc.backend.projet2.repository.RentalRepository;
@@ -45,13 +46,6 @@ public class RentalServiceImpl implements RentalService {
 
   @Override
   public RentalDto createRental(CreateRentalDto createRentalDto, MultipartFile picture) throws IOException {
-    if (picture == null || picture.isEmpty() ||
-      createRentalDto.getName() == null || createRentalDto.getName().isEmpty() ||
-      createRentalDto.getSurface() == null ||
-      createRentalDto.getPrice() == null ||
-      createRentalDto.getDescription() == null || createRentalDto.getDescription().isEmpty()) {
-      throw new IllegalArgumentException("Tous les champs sont obligatoires");
-    }
 
     Rental rental = new Rental();
     rental.setName(createRentalDto.getName());
@@ -69,14 +63,15 @@ public class RentalServiceImpl implements RentalService {
     return convertToDto(rental);
   }
 
+
   @Override
-  public RentalDto updateRental(Integer id, CreateRentalDto createRentalDto) {
+  public RentalDto updateRental(Integer id, UpdateRentalDto updateRentalDto) {
     Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found"));
-    rental.setName(createRentalDto.getName());
-    rental.setSurface(createRentalDto.getSurface());
-    rental.setPrice(createRentalDto.getPrice());
-    rental.setDescription(createRentalDto.getDescription());
-    rental.setOwner(userRepository.findById(createRentalDto.getOwner_id()).orElseThrow(() -> new RuntimeException("Owner not found")));
+    rental.setName(updateRentalDto.getName());
+    rental.setSurface(updateRentalDto.getSurface());
+    rental.setPrice(updateRentalDto.getPrice());
+    rental.setDescription(updateRentalDto.getDescription());
+    rental.setOwner(userRepository.findById(updateRentalDto.getOwner_id()).orElseThrow(() -> new RuntimeException("Owner not found")));
     rental.setUpdatedAt(LocalDateTime.now());
 
     rental = rentalRepository.save(rental);

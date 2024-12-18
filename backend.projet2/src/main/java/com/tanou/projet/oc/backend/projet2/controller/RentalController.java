@@ -2,6 +2,8 @@ package com.tanou.projet.oc.backend.projet2.controller;
 
 import com.tanou.projet.oc.backend.projet2.dto.CreateRentalDto;
 import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
+import com.tanou.projet.oc.backend.projet2.dto.RentalListResponseDto;
+import com.tanou.projet.oc.backend.projet2.dto.UpdateRentalDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
@@ -31,11 +33,11 @@ public class RentalController {
   }
 
   @GetMapping
-  public ResponseEntity<Map<String, List<RentalDto>>> getAllRentals() {
+  public ResponseEntity<RentalListResponseDto> getAllRentals() {
     List<RentalDto> rentals = rentalService.getAllRentals();
-    Map<String, List<RentalDto>> response = Map.of("rentals", rentals);
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(new RentalListResponseDto(rentals));
   }
+
 
   @GetMapping("/{id}")
   public ResponseEntity<RentalDto> getRentalById(@PathVariable Integer id) {
@@ -58,14 +60,13 @@ public class RentalController {
   @PutMapping("/{id}")
   public ResponseEntity<RentalDto> updateRental(
     @PathVariable Integer id,
-    @Valid @ModelAttribute CreateRentalDto createRentalDto,
-    @RequestParam("picture") MultipartFile picture,
-    Principal principal) throws IOException {
+    @Valid @ModelAttribute UpdateRentalDto updateRentalDto,
+    Principal principal) {
 
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
-    createRentalDto.setOwner_id(currentUser.getId());
+    updateRentalDto.setOwner_id(currentUser.getId());
 
-    return ResponseEntity.ok(rentalService.updateRental(id, createRentalDto));
+    return ResponseEntity.ok(rentalService.updateRental(id, updateRentalDto));
   }
 }

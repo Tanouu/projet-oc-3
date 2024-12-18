@@ -26,16 +26,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerNewUser(RegisterDto registerDto) {
-      User newUser = new User();
-      newUser.setEmail(registerDto.getEmail());
-      newUser.setName(registerDto.getName());
-      newUser.setPassword(registerDto.getPassword());
-      newUser.setCreatedAt(LocalDateTime.now());
-      newUser.setUpdatedAt(LocalDateTime.now());
-      return userRepository.save(newUser);
+      User user = new User();
+      user.setEmail(registerDto.getEmail());
+      user.setName(registerDto.getName());
+      user.setPassword(registerDto.getPassword());
+      return userRepository.save(user);
     }
 
-    @Override
+  @Override
     public User findUserByEmail(String email) {
       return userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }

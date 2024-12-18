@@ -1,6 +1,7 @@
 package com.tanou.projet.oc.backend.projet2.controller;
 
 
+import com.tanou.projet.oc.backend.projet2.dto.JwtResponseDto;
 import com.tanou.projet.oc.backend.projet2.dto.LoginDto;
 import com.tanou.projet.oc.backend.projet2.dto.RegisterDto;
 import com.tanou.projet.oc.backend.projet2.dto.UserDto;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,9 +37,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<Map<String, String>> registerNewUser(@Valid @RequestBody RegisterDto registerDto) {
-    System.out.println("Registering a new user");
-
+  public ResponseEntity<JwtResponseDto> registerNewUser(@Valid @RequestBody RegisterDto registerDto) {
     registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
     User newUser = userService.registerNewUser(registerDto);
@@ -47,26 +47,21 @@ public class UserController {
 
     final String jwt = jwtGenerator.generateToken(authentication);
 
-    return ResponseEntity.ok(Map.of("token", jwt));
+    return ResponseEntity.ok(new JwtResponseDto(jwt));
   }
 
-
   @PostMapping("/login")
-  public ResponseEntity<Map<String, String>> loginUser(@Valid @RequestBody LoginDto loginData) {
+  public ResponseEntity<JwtResponseDto> loginUser(@Valid @RequestBody LoginDto loginData) {
     User user = userService.findUserByEmail(loginData.getEmail());
-    if (user == null) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
-    } else if (!passwordEncoder.matches(loginData.getPassword(), user.getPassword())) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid username/password"));
-    }
+
     UsernamePasswordAuthenticationToken authentication =
       new UsernamePasswordAuthenticationToken(user.getEmail(), null, new ArrayList<>());
 
     final String jwt = jwtGenerator.generateToken(authentication);
 
-    return ResponseEntity.ok(Map.of("token", jwt));
-
+    return ResponseEntity.ok(new JwtResponseDto(jwt));
   }
+
 
   @GetMapping("/me")
   public ResponseEntity<UserDto> getUserProfile(Authentication authentication) {

@@ -1,8 +1,17 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class CreateMessageDto {
+
+  @NotBlank(message = "Le message ne doit pas être vide")
   private String message;
+
+  @NotNull(message = "L'id de l'utilisateur est obligatoire")
   private Integer user_id;
+
+  @NotNull(message = "L'id de la location est obligatoire")
   private Integer rental_id;
 
   public CreateMessageDto() {

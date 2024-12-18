@@ -6,17 +6,14 @@ import jakarta.validation.constraints.NotNull;
 
 public class RegisterDto {
 
-  @NotNull
-  @NotBlank
-  @Email
+  @NotBlank(message = "L'email ne doit pas être vide")
+  @Email(message = "L'email doit être valide")
   private String email;
 
-  @NotNull
-  @NotBlank
+  @NotBlank(message = "Le nom ne doit pas être vide")
   private String name;
 
-  @NotNull
-  @NotBlank
+  @NotBlank(message = "Le mot de passe ne doit pas être vide")
   private String password;
 
   public RegisterDto(String email, String name, String password) {
