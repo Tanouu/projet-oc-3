@@ -1,8 +1,22 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class RegisterDto {
+
+  @NotNull
+  @NotBlank
+  @Email
   private String email;
+
+  @NotNull
+  @NotBlank
   private String name;
+
+  @NotNull
+  @NotBlank
   private String password;
 
   public RegisterDto(String email, String name, String password) {

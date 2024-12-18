@@ -5,6 +5,7 @@ import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,26 +45,18 @@ public class RentalController {
 
   @PostMapping
   public ResponseEntity<RentalDto> createRental(
-    @RequestParam("name") String name,
-    @RequestParam("description") String description,
-    @RequestParam("price") BigDecimal price,
-    @RequestParam("surface") BigDecimal surface,
+    @ModelAttribute @Valid CreateRentalDto createRentalDto,
     @RequestParam("picture") MultipartFile picture,
     Principal principal) throws IOException {
-
 
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
 
-    CreateRentalDto createRentalDto = new CreateRentalDto();
-    createRentalDto.setName(name);
-    createRentalDto.setDescription(description);
-    createRentalDto.setPrice(price);
-    createRentalDto.setSurface(surface);
     createRentalDto.setOwner_id(currentUser.getId());
 
     return ResponseEntity.ok(rentalService.createRental(createRentalDto, picture));
   }
+
 
   @PutMapping("/{id}")
   public ResponseEntity<RentalDto> updateRental(

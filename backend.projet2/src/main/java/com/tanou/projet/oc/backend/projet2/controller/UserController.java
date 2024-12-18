@@ -7,6 +7,7 @@ import com.tanou.projet.oc.backend.projet2.dto.UserDto;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.security.JwtGenerator;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody RegisterDto registerDto) {
+  public ResponseEntity<Map<String, String>> registerNewUser(@Valid @RequestBody RegisterDto registerDto) {
     System.out.println("Registering a new user");
 
     registerDto.setPassword(passwordEncoder.encode(registerDto.getPassword()));
@@ -51,7 +52,7 @@ public class UserController {
 
 
   @PostMapping("/login")
-  public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginDto loginData) {
+  public ResponseEntity<Map<String, String>> loginUser(@Valid @RequestBody LoginDto loginData) {
     User user = userService.findUserByEmail(loginData.getEmail());
     if (user == null) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));

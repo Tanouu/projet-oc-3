@@ -1,13 +1,26 @@
 package com.tanou.projet.oc.backend.projet2.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public class CreateRentalDto {
+
+  @NotBlank(message = "Le nom ne peut pas être vide")
   private String name;
+
+  @NotNull(message = "La surface est obligatoire")
   private BigDecimal surface;
+
+  @NotNull(message = "Le prix est obligatoire")
   private BigDecimal price;
+
   private String picture;
+
+  @NotBlank(message = "La description ne peut pas être vide")
   private String description;
+
   private Integer owner_id;
 
   public CreateRentalDto(String name, BigDecimal surface, BigDecimal price, String picture, String description, Integer owner_id) {
