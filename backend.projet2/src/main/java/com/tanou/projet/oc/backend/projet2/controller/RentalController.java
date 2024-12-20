@@ -1,12 +1,12 @@
 package com.tanou.projet.oc.backend.projet2.controller;
 
-import com.tanou.projet.oc.backend.projet2.dto.CreateRentalDto;
-import com.tanou.projet.oc.backend.projet2.dto.RentalDto;
-import com.tanou.projet.oc.backend.projet2.dto.RentalListResponseDto;
-import com.tanou.projet.oc.backend.projet2.dto.UpdateRentalDto;
+import com.tanou.projet.oc.backend.projet2.dto.*;
 import com.tanou.projet.oc.backend.projet2.entity.User;
 import com.tanou.projet.oc.backend.projet2.service.RentalService;
 import com.tanou.projet.oc.backend.projet2.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,18 +44,28 @@ public class RentalController {
     return ResponseEntity.ok(rentalService.getRentalById(id));
   }
 
-  @PostMapping
+  @PostMapping(consumes = "multipart/form-data")
+  @Operation(
+    summary = "Créer une nouvelle location",
+    description = "Créer une nouvelle location avec des données et une image",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      content = @Content(
+        mediaType = "multipart/form-data",
+        schema = @Schema(implementation = CreateRentalForm.class)
+      )
+    )
+  )
   public ResponseEntity<RentalDto> createRental(
-    @Valid @ModelAttribute CreateRentalDto createRentalDto,
-    @RequestParam("picture") MultipartFile picture,
-    Principal principal) throws IOException {
-
+    @Valid @ModelAttribute CreateRentalForm createRentalForm,
+    Principal principal
+  ) throws IOException {
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
-    createRentalDto.setOwner_id(currentUser.getId());
+    createRentalForm.setOwner_id(currentUser.getId());
 
-    return ResponseEntity.ok(rentalService.createRental(createRentalDto, picture));
+    return ResponseEntity.ok(rentalService.createRental(createRentalForm.toCreateRentalDto(), createRentalForm.getPicture()));
   }
+
 
   @PutMapping("/{id}")
   public ResponseEntity<RentalDto> updateRental(
