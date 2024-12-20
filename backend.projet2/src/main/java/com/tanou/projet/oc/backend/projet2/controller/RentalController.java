@@ -66,17 +66,27 @@ public class RentalController {
     return ResponseEntity.ok(rentalService.createRental(createRentalForm.toCreateRentalDto(), createRentalForm.getPicture()));
   }
 
-
   @PutMapping("/{id}")
+  @Operation(
+    summary = "Mettre à jour une location",
+    description = "Mettre à jour uniquement les informations d'une location, sans changer la photo",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      content = @Content(
+        mediaType = "multipart/form-data",
+        schema = @Schema(implementation = UpdateRentalDto.class)
+      )
+    )
+  )
   public ResponseEntity<RentalDto> updateRental(
     @PathVariable Integer id,
     @Valid @ModelAttribute UpdateRentalDto updateRentalDto,
-    Principal principal) {
-
+    Principal principal
+  ) {
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
     updateRentalDto.setOwner_id(currentUser.getId());
 
     return ResponseEntity.ok(rentalService.updateRental(id, updateRentalDto));
   }
+
 }
