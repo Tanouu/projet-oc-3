@@ -56,6 +56,10 @@ public class RentalServiceImpl implements RentalService {
     rental.setCreatedAt(LocalDateTime.now());
     rental.setUpdatedAt(LocalDateTime.now());
 
+    if (picture == null) {
+      throw new RuntimeException("Picture is required");
+    }
+
     String picturePath = savePicture(picture);
     rental.setPicture(picturePath);
 

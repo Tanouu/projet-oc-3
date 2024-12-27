@@ -62,8 +62,12 @@ public class RentalController {
     String email = principal.getName();
     User currentUser = userService.findUserByEmail(email);
     createRentalForm.setOwner_id(currentUser.getId());
-
-    return ResponseEntity.ok(rentalService.createRental(createRentalForm.toCreateRentalDto(), createRentalForm.getPicture()));
+    try {
+      return ResponseEntity.ok(rentalService.createRental(createRentalForm.toCreateRentalDto(), createRentalForm.getPicture()));
+    }
+    catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @PutMapping("/{id}")

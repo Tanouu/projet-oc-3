@@ -52,6 +52,7 @@ public class CreateRentalForm {
   public void setOwner_id(Integer owner_id) { this.owner_id = owner_id; }
 
   public CreateRentalDto toCreateRentalDto() {
+
     return new CreateRentalDto(name, surface, price, description, owner_id);
   }
 }
