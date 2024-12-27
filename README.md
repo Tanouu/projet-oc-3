@@ -47,7 +47,7 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 SERVER_BASE_URL=your_server_base_url (ex: http://localhost:3001)
 ```
-
+If you don't change the server port in the application.properties file, use the default server base URL provided in the example.
 Then, run the back-end:
 
 ```ini
@@ -55,5 +55,6 @@ run backend.projet2/src/main/java/com/tanou/projet/oc/backend/projet2/Applicatio
 ```
 
 ### Swagger
+Once the backend is running, you can access the Swagger UI to view the API documentation and test endpoints: 
 
 http://your_server_base_url/swagger-ui/index.html
